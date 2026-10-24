@@ -1,0 +1,10 @@
+# Runs the specs without Ruby on the host: ./test
+services:
+  ruby:
+    image: ruby:4.0.7
+    working_dir: /leancss
+    volumes:
+      - .:/leancss
+      - bundle:/usr/local/bundle
+volumes:
+  bundle:

@@ -1,0 +1,5 @@
+#!/usr/bin/env bash
+# Runs the specs in Docker: ./test [files or options]
+set -e
+cd "$(dirname "$0")"
+docker compose run --rm -T ruby bash -c 'bundle check >/dev/null || bundle install --quiet; bundle exec rspec "$@"' rspec "$@" < /dev/null
