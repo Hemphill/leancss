@@ -19,7 +19,7 @@ module Leancss
 
     attr_reader :root, :settings
 
-    # settings: config.leancss (builds, content, safelist). root: the app's
+    # settings: config.leancss (builds, packages, content, safelist). root: the app's
     # root. engine_roots: the root folders of the app's engines.
     def initialize(settings, root:, engine_roots: [])
       @settings = settings
@@ -39,6 +39,14 @@ module Leancss
       root.join("tmp/cache/leancss")
     end
 
+    def packages_dir
+      cache_dir.join("packages")
+    end
+
+    def packages
+      @packages ||= (settings[:packages] || {}).map { |name, options| Package.new(name, options, dir: packages_dir) }
+    end
+
     def builds
       definitions.map do |name, options|
         options = (options || {}).transform_keys(&:to_sym)
@@ -50,7 +58,7 @@ module Leancss
 
         Build.new(
           name,
-          sources: css.map { |entry| Source.new(entry, stylesheets: stylesheets, cache: cache_dir, output_folder: OUTPUT_FOLDER) },
+          sources: css.map { |entry| Source.new(entry, stylesheets: stylesheets, cache: cache_dir, output_folder: OUTPUT_FOLDER, packages: packages) },
           content: Content.new(files(options[:content] || default_content) - files(Array(options[:except]))),
           safelist: Array(settings[:safelist]) + Array(options[:safelist]),
           trim: options.fetch(:trim, true),

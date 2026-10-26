@@ -11,21 +11,41 @@ module Leancss
   #   use a URL with a version in it. Relative url()s in it are made absolute.
   # * a .css file, relative to app/assets/stylesheets (or an absolute path).
   # * a .scss or .sass file, compiled with Dart Sass (add the sass-embedded gem).
+  #   It can @import the app's other stylesheets and the packages.
   class Source
     attr_reader :entry
 
     # stylesheets: the app's app/assets/stylesheets. cache: where downloads are
     # kept. output_folder: the built file's folder inside app/assets/builds
-    # ("lean"), for fixing relative url()s.
-    def initialize(entry, stylesheets:, cache:, output_folder:)
+    # ("lean"), for fixing relative url()s. packages: Packages for Sass to use.
+    def initialize(entry, stylesheets:, cache:, output_folder:, packages: [])
       @entry = entry.to_s
       @stylesheets = Pathname(stylesheets)
       @cache = Pathname(cache)
       @output_folder = Pathname(output_folder)
+      @packages = packages
     end
 
     def url?
       entry.match?(%r{\Ahttps?://})
+    end
+
+    def sass?
+      !url? && %w[ .scss .sass ].include?(path.extname)
+    end
+
+    # The files whose changes mean a rebuild: the file itself, and for Sass, the
+    # stylesheets it could @import.
+    def inputs
+      return [] if url?
+      return [ path ] unless sass?
+
+      [ path ] + Dir.glob(@stylesheets.join("**/*.{scss,sass}")).map { |file| Pathname(file) }
+    end
+
+    # Changes when the source's settings change, like a package's tag.
+    def signature
+      sass? ? [ entry, @packages.map(&:signature) ] : entry
     end
 
     # The file this source reads (the cached download, for a URL).
@@ -39,7 +59,7 @@ module Leancss
         absolute_urls(File.read(path), entry)
       elsif !path.exist?
         raise Error, "#{entry} isn't in #{@stylesheets}"
-      elsif %w[ .scss .sass ].include?(path.extname)
+      elsif sass?
         relative_urls(compile_sass)
       else
         relative_urls(File.read(path))
@@ -85,9 +105,12 @@ module Leancss
           raise Error, "#{entry} is Sass: add the sass-embedded gem to compile it"
         end
 
+        @packages.each(&:fetch)
+        load_paths = [ @stylesheets, *@packages.map { |package| package.path.dirname } ].uniq.map(&:to_s)
         begin
-          # Bootstrap 5 and CS3 still use @import, so don't warn about it on every build.
-          Sass.compile(path.to_s, load_paths: [ @stylesheets.to_s ], style: :expanded,
+          # Bootstrap 5 and CS3 still use @import, so don't warn about it on every
+          # build. quiet_deps keeps the packages' own deprecations quiet too.
+          Sass.compile(path.to_s, load_paths: load_paths, style: :expanded,
                                   quiet_deps: true, silence_deprecations: %w[ import ]).css
         rescue Sass::CompileError => error
           where = error.span && "#{File.basename(error.span.url.to_s)} line #{error.span.start.line + 1}: #{error.span.text}"

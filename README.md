@@ -15,19 +15,37 @@ For example, an app using Core Styles 3 (Bootstrap 5.3) went from 40 KB to
 ```ruby
 # Gemfile
 gem "leancss", github: "Hemphill/leancss"
-gem "sass-embedded" # only if a build includes .scss files
 ```
 
 ```sh
 bin/rails generate leancss:install
+bundle install
 ```
 
-This adds `config/initializers/leancss.rb` and keeps the built files out of git.
-Link a build in a layout:
+The generator sets an app up to compile Bootstrap and Core Styles 3 from Sass
+with its own variables, as Webstop's core-customizations does for a retailer:
+
+- `config/initializers/leancss.rb`: the Sass packages (Bootstrap and Core
+  Styles 3, at a tag) and two builds, `public` and `admin`, each trimmed
+  against its own views.
+- `app/assets/stylesheets/public.scss`: Bootstrap's functions, then
+  `public/_variables.scss` (Bootstrap's and Core Styles' variables, commented
+  out with their defaults), then Bootstrap and Core Styles, then the app's own
+  partials (`public/_layout.scss`, `_header`, `_typography`, `_footer`).
+- `app/assets/stylesheets/admin.scss`: the same with Webstop's admin look (as
+  in Core Styles' `webstop-admin.css`), `admin/_variables.scss` and
+  `admin/_admin.scss`.
+- the sass-embedded gem in the Gemfile, and `/app/assets/builds/lean` in
+  `.gitignore`.
+
+Link the builds in the layouts:
 
 ```erb
 <%= stylesheet_link_tag "lean/public" %>
 ```
+
+With no changes to the variables, the builds match Core Styles' released
+`core-styles-defaults.css` and `webstop-admin.css` before trimming.
 
 ## Builds
 
@@ -70,10 +88,30 @@ version in them. Their relative `url()`s are made absolute.
 
 `config.leancss.safelist` keeps class names in every build.
 
+## Sass packages
+
+`.scss` files can `@import` the app's other stylesheets and Sass libraries
+listed as packages:
+
+```ruby
+Rails.application.config.leancss.packages = {
+  "bootstrap" => { git: "https://github.com/twbs/bootstrap.git", tag: "v5.3.8" },
+  "core-styles-3" => { git: "https://github.com/webstop/core-styles-3.git", tag: "v3.0.25" }
+}
+```
+
+Each is fetched from git at its tag (only its `scss` folder; `only:` names
+other folders) into `tmp/cache/leancss/packages/<name>`, which is on Sass's
+load path, so `@import "bootstrap/scss/functions"` works as it would from
+`node_modules`. Fetching needs git (Bundler already does for GitHub gems), and
+takes a second or two the first time; change the tag to upgrade. Deprecation
+warnings from packages are hidden.
+
 ## When files are built
 
 - **Development:** before each page request, any build whose sources, views or
-  settings changed is rebuilt.
+  settings changed is rebuilt. A change to any `.scss` file in
+  `app/assets/stylesheets` rebuilds the Sass builds.
 - **Test:** stale builds are rebuilt when the app boots.
 - **Production:** `assets:precompile` runs `leancss:build` first.
 

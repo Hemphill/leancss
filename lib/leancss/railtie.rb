@@ -7,6 +7,9 @@ module Leancss
     # { "public" => { css: [...], content: [...], except: [...], safelist: [...], trim: true } }.
     # Without builds, each stylesheet whose name doesn't start with _ is built.
     config.leancss.builds = nil
+    # Sass libraries to fetch for the builds' .scss files, by name:
+    # { "bootstrap" => { git: "https://github.com/twbs/bootstrap.git", tag: "v5.3.8" } }
+    config.leancss.packages = {}
     # Where class names are, for builds without content:. Defaults to
     # Configuration::DEFAULT_CONTENT plus the same folders in engines.
     config.leancss.content = nil

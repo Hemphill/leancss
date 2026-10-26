@@ -9,10 +9,14 @@ it), so apps need no Node.
 - `lib/leancss/content.rb`: the words in an app's files, and class names built
   in code.
 - `lib/leancss/source.rb`: one css: entry (app file, Sass, or URL).
+- `lib/leancss/package.rb`: a Sass library fetched from git at a tag.
 - `lib/leancss/build.rb`: one output file, plus its Report.
 - `lib/leancss/configuration.rb`: config.leancss → Builds, including defaults.
 - `lib/leancss/railtie.rb`: config, development middleware, test boot build.
-- `lib/tasks/leancss.rake`, `lib/generators/leancss/install`.
+- `lib/tasks/leancss.rake`.
+- `lib/generators/leancss/install`: the initializer, and public and admin
+  `.scss` files modeled on Webstop's core-customizations (variables first,
+  then Bootstrap and CS3, then the app's partials).
 
 Run the specs with `./test` (Docker, ruby:4.0.7). It isn't called `rspec`
 because `bundle exec rspec` inside the container would run the script instead
@@ -62,13 +66,19 @@ of RSpec.
   for changed files.
 - Stamp files go in `tmp/cache/leancss`; in the builds folder Propshaft would
   publish them.
+- CS3's GitHub tarball is 175 MB (docs, site, dist, images) for 100 KB of
+  Sass, and the CDN has only its built CSS, so packages are fetched with a
+  shallow, sparse git clone of the scss folder (about a second).
+- Compiled with today's Dart Sass, the generated `public.scss` and
+  `admin.scss` match CS3 v3.0.23's CDN files (built with Bootstrap 5.3.7) rule
+  for rule, except that colors are written as `rgb(81.02%, …)` instead of
+  `rgb(206.6, …)` (0.1 of a channel apart at most) and two empty rules.
 
 ## Not done yet
 
-1. Compile Bootstrap and CS3 from Sass with each app's own `_variables.scss`,
-   like Webstop's core-customizations does (Bootstrap's functions, the app's
-   variables, Bootstrap, CS3, then app partials). Fetch Bootstrap's Sass from
-   npm's download URL and CS3's from GitHub at a tag; still no Node.
+1. Switch chat to the generated Sass builds (its initializer still uses the
+   CDN's CSS). In chat, the generated builds came to 13.6 KB (public, without
+   lite.css and chat.css) and 12.6 KB (admin) gzipped.
 2. Trim more:
    - read only the gem layouts an app uses (styler's views keep `modal` and
      `offcanvas`);
@@ -77,7 +87,8 @@ of RSpec.
 3. Pagy's pagination markup comes from Ruby code, not views, so its classes may
    need safelisting.
 4. Check states that need clicking (open dropdowns, modals) in the comparison.
-5. Specs for the install generator and the Railtie (so far only tried by hand
-   in chat).
-6. Later, Core Styles 4 on Bootstrap 6. Class names like `md:d-none` are
+5. Specs for the Railtie (so far only tried by hand in chat).
+6. Rebuild only the Sass builds that import a changed partial (Sass's
+   `loaded_urls`), rather than all of them.
+7. Later, Core Styles 4 on Bootstrap 6. Class names like `md:d-none` are
    already handled.

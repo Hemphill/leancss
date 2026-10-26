@@ -28,6 +28,17 @@ RSpec.describe Leancss::Build do
     expect(changed).to be_stale
   end
 
+  it "is stale when a Sass partial changes" do
+    write("app/assets/stylesheets/_colors.scss", "$brand: #c00;")
+    write("app/assets/stylesheets/site.scss", "@import 'colors';\n.btn { color: $brand; }")
+    sass = Leancss::Configuration.new({ builds: { "site" => { css: %w[ site.scss ] } } }, root: root).builds.first
+    sass.run
+    expect(sass).not_to be_stale
+
+    File.utime(Time.now + 5, Time.now + 5, root.join("app/assets/stylesheets/_colors.scss"))
+    expect(sass).to be_stale
+  end
+
   it "reports what it would remove, and suspects from class names built in code" do
     report = build.report
     expect(report.result.removed.keys).to contain_exactly("unused", "alert-danger", "alert-info")

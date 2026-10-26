@@ -65,12 +65,12 @@ module Leancss
       end
 
       def inputs
-        sources.reject(&:url?).map(&:path).select(&:exist?) + content.files
+        sources.flat_map(&:inputs).uniq.select(&:exist?) + content.files
       end
 
       # Changes when the settings change, so a new safelist rebuilds.
       def stamp
-        [ VERSION, trim?, sources.map(&:entry), content.files, safelist.sort ].inspect
+        [ VERSION, trim?, sources.map(&:signature), content.files, safelist.sort ].inspect
       end
   end
 

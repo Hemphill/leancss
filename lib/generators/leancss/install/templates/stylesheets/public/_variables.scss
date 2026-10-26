@@ -1,0 +1,193 @@
+// Variables
+// =========
+//
+// Nearly everything in Bootstrap and Core Styles can be changed with a
+// variable, so look here before overriding their CSS. Each line below is
+// commented out and shows the default. Uncomment one and change its value to
+// use your own.
+//
+// This file loads before Bootstrap's variables (so yours win), which means it
+// can only use Bootstrap's functions, not its other variables: write
+// `$secondary: #6c757d;` rather than `$secondary: $gray-600;`.
+//
+// Every Bootstrap variable is in
+// https://github.com/twbs/bootstrap/blob/v5.3.8/scss/_variables.scss and
+// _variables-dark.scss; Core Styles' are in
+// https://github.com/webstop/core-styles-3/blob/master/scss/_variables.scss.
+// To change one not listed here, add it in the same order as in those files.
+
+
+// Bootstrap
+// ---------
+
+// Colors
+
+//$blue:    #0d6efd;
+//$indigo:  #6610f2;
+//$purple:  #6f42c1;
+//$pink:    #d63384;
+//$red:     #dc3545;
+//$orange:  #fd7e14;
+//$yellow:  #ffc107;
+//$green:   #198754;
+//$teal:    #20c997;
+//$cyan:    #0dcaf0;
+
+// Theme colors, used by buttons, alerts, badges, text and background utilities.
+
+//$primary:       $blue;
+//$secondary:     #6c757d; // $gray-600
+//$success:       $green;
+//$info:          $cyan;
+//$warning:       $yellow;
+//$danger:        $red;
+//$light:         #f8f9fa; // $gray-100
+//$dark:          #212529; // $gray-900
+
+// The contrast text on a colored background must have against it (WCAG 2.1).
+//$min-contrast-ratio:   4.5;
+
+// Options
+
+//$enable-caret:                true;
+//$enable-rounded:              true;
+//$enable-shadows:              false;
+//$enable-gradients:            false;
+//$enable-transitions:          true;
+//$enable-reduced-motion:       true;
+//$enable-smooth-scroll:        true;
+//$enable-grid-classes:         true;
+//$enable-container-classes:    true;
+//$enable-cssgrid:              false;
+//$enable-button-pointers:      true;
+//$enable-rfs:                  true;
+//$enable-validation-icons:     true;
+//$enable-negative-margins:     false;
+//$enable-important-utilities:  true;
+//$enable-dark-mode:            true;
+
+// Spacing, for the margin and padding utilities (.m-3, .p-2, …).
+
+//$spacer: 1rem;
+
+// Body
+
+//$body-color:                #212529; // $gray-900
+//$body-bg:                   #fff;
+
+// Links
+
+//$link-color:                $primary;
+//$link-decoration:           underline;
+//$link-hover-decoration:     null;
+
+// Borders and shadows
+
+//$border-width:                1px;
+//$border-color:                #dee2e6; // $gray-300
+//$border-radius:               .375rem;
+//$border-radius-sm:            .25rem;
+//$border-radius-lg:            .5rem;
+//$border-radius-xl:            1rem;
+//$border-radius-xxl:           2rem;
+//$box-shadow:                  0 .5rem 1rem rgba(#000, .15);
+
+// Focus rings
+
+//$focus-ring-width:      .25rem;
+//$focus-ring-opacity:    .25;
+
+// Typography
+
+//$font-family-sans-serif:      system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", "Noto Sans", "Liberation Sans", Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
+//$font-family-monospace:       SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+
+//$font-size-base:              1rem; // The browser's default, usually 16px
+//$font-size-sm:                $font-size-base * .875;
+//$font-size-lg:                $font-size-base * 1.25;
+
+//$font-weight-normal:          400;
+//$font-weight-bold:            700;
+//$line-height-base:            1.5;
+
+//$h1-font-size:                $font-size-base * 2.5;
+//$h2-font-size:                $font-size-base * 2;
+//$h3-font-size:                $font-size-base * 1.75;
+//$h4-font-size:                $font-size-base * 1.5;
+//$h5-font-size:                $font-size-base * 1.25;
+//$h6-font-size:                $font-size-base;
+
+//$headings-font-family:        null;
+//$headings-font-weight:        500;
+//$headings-color:              inherit;
+
+// Buttons and inputs
+
+//$input-btn-padding-y:         .375rem;
+//$input-btn-padding-x:         .75rem;
+//$btn-font-weight:             $font-weight-normal;
+
+// Grid
+
+//$grid-gutter-width:           1.5rem;
+
+// Dark mode (from _variables-dark.scss)
+
+//$body-color-dark:             #dee2e6; // $gray-300
+//$body-bg-dark:                #212529; // $gray-900
+//$border-color-dark:           #495057; // $gray-700
+//$link-color-dark:             tint-color($primary, 40%);
+
+
+// Core Styles
+// -----------
+
+// Theme
+
+//$theme-primary:   #d9d6c1;
+//$theme-bg:        lighten($theme-primary, 15%);
+//$theme-active-bg: lighten($theme-primary, 7.5%);
+
+// Public layout sizes
+
+//$public-header-height:        60px;
+//$public-header-sm-height:     $public-header-height;
+//$public-header-md-height:     $public-header-sm-height;
+//$public-header-lg-height:     133px;
+//$public-header-xl-height:     $public-header-lg-height;
+//$public-header-xxl-height:    $public-header-xl-height;
+//$public-sidecar-width:        90px;
+//$public-sidenav-width:        320px;
+//$public-sidebar-width:        320px;
+
+// Public layout spacing
+
+//$public-spacer-y:             1rem; // $spacer
+//$public-spacer-x:             1rem; // $spacer
+//$public-header-spacer-y:      0;
+//$public-header-spacer-x:      0;
+//$public-content-spacer-y:     $public-spacer-y;
+//$public-content-spacer-x:     $public-spacer-x;
+//$public-footer-spacer-y:      $public-spacer-y;
+//$public-footer-spacer-x:      $public-spacer-x;
+
+// Public layout colors and borders
+
+//$public-border-color:         $theme-primary;
+//$public-border-size:          1px;
+//$public-header-bg-color:      transparent;
+//$public-sidenav-bg-color:     transparent;
+//$public-page-bg-color:        $theme-bg;
+//$public-content-bg-color:     $theme-bg;
+//$public-sidebar-bg-color:     $theme-bg;
+//$public-footer-bg-color:      transparent;
+
+// Readable line length (.readable)
+
+//$readable: 34.25rem + (1.25rem * 2);
+
+// Toolbar
+
+//$toolbar-spacer:       1rem; // $spacer
+//$toolbar-bg:           $theme-primary;
+//$toolbar-border-color: darken($toolbar-bg, 15%);

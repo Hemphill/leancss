@@ -1,0 +1,25 @@
+@charset "utf-8";
+
+// The public pages' CSS: Bootstrap and Core Styles 3 compiled with this app's
+// variables, then the app's own styles. leancss builds it (with the unused
+// rules removed) into app/assets/builds/lean/public.css.
+//
+// Keep CSS out of this file; it only loads the others, in this order.
+
+// Bootstrap's functions, so the variables file can use them.
+@import "bootstrap/scss/functions";
+
+// This app's variables. They come first so they win over Bootstrap's and Core
+// Styles' defaults.
+@import "public/variables";
+
+// The frameworks, from the packages in config/initializers/leancss.rb.
+@import "bootstrap/scss/bootstrap";
+@import "core-styles-3/scss/core-styles";
+
+// This app's styles. Add a partial per page or component (public/pages/_name.scss,
+// public/components/_name.scss) and import it here.
+@import "public/layout";
+@import "public/header";
+@import "public/typography";
+@import "public/footer";

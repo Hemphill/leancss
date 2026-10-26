@@ -1,0 +1,13 @@
+// This app's admin styles.
+
+// White text on primary buttons, which Bootstrap would make dark on Webstop
+// blue (from Core Styles' webstop-admin.scss).
+.btn-primary {
+  --bs-btn-color: #fff;
+  --bs-btn-hover-color: #fff;
+  --bs-btn-active-color: #fff;
+  --bs-btn-disabled-color: #fff;
+}
+.btn-primary, .btn-primary:hover, .btn-primary:active, .btn-primary:focus {
+  color: #fff !important;
+}

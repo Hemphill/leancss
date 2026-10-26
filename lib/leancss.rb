@@ -1,6 +1,7 @@
 require "leancss/version"
 require "leancss/trimmer"
 require "leancss/content"
+require "leancss/package"
 require "leancss/source"
 require "leancss/build"
 require "leancss/configuration"

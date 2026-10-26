@@ -1,0 +1,22 @@
+@charset "utf-8";
+
+// The admin pages' CSS: Bootstrap and Core Styles 3 with Webstop's admin look,
+// as in Core Styles' webstop-admin.css, compiled with this app's variables.
+// leancss builds it (with the unused rules removed) into
+// app/assets/builds/lean/admin.css.
+//
+// Keep CSS out of this file; it only loads the others, in this order.
+
+@import "bootstrap/scss/functions";
+
+// Webstop's admin colors and fonts, then this app's variables, which can change
+// them.
+@import "core-styles-3/scss/webstop-admin-variables";
+@import "admin/variables";
+
+@import "bootstrap/scss/bootstrap";
+@import "core-styles-3/scss/core-styles";
+@import "core-styles-3/scss/webstop-admin-typography";
+
+// This app's admin styles.
+@import "admin/admin";

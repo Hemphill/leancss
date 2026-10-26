@@ -7,5 +7,8 @@
 - Builds with no settings: every stylesheet not starting with `_`.
 - Rebuilds stale files on page requests in development and at boot in test, and
   during `assets:precompile`.
-- `leancss:build`, `leancss:report` and `leancss:clobber` tasks, and the
-  `leancss:install` generator.
+- Sass packages (`config.leancss.packages`): Sass libraries fetched from git at
+  a tag, for builds' `.scss` files to `@import`.
+- `leancss:build`, `leancss:report` and `leancss:clobber` tasks.
+- The `leancss:install` generator: public and admin builds compiled from
+  Bootstrap's and Core Styles 3's Sass with the app's own variables.

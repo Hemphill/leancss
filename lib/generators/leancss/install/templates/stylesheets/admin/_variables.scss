@@ -1,0 +1,24 @@
+// Variables for the admin pages
+// =============================
+//
+// The admin pages start with Webstop's admin look: Webstop blue as the primary
+// color and JetBrains Mono for code (Core Styles' _webstop-admin-variables.scss).
+// Uncomment a line to change it. Anything in public/_variables.scss can go here
+// too.
+//
+// This file loads before Bootstrap's variables, so it can't use them: write
+// `$secondary: #6c757d;` rather than `$secondary: $gray-600;`.
+
+//$primary:               #0194d3; // $webstop-blue
+//$font-family-sans-serif: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", "Noto Sans", "Liberation Sans", Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
+//$font-family-monospace:  "JetBrains Mono", SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+
+// Admin layout (Core Styles)
+
+//$admin-header-height:        60px;
+//$admin-footer-height:        40px;
+//$admin-sidenav-width:        320px;
+//$admin-sidebar-width:        320px;
+//$admin-sidenav-bg-color:     #e9ecef;
+//$admin-sidebar-bg-color:     #dbe3eb;
+//$admin-footer-bg-color:      #e9ecef;
