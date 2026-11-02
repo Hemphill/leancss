@@ -35,12 +35,12 @@ module Leancss
     end
 
     # The files whose changes mean a rebuild: the file itself, and for Sass, the
-    # stylesheets it could @import.
+    # stylesheets it could @import, plain .css files included.
     def inputs
       return [] if url?
       return [ path ] unless sass?
 
-      [ path ] + Dir.glob(@stylesheets.join("**/*.{scss,sass}")).map { |file| Pathname(file) }
+      [ path ] + Dir.glob(@stylesheets.join("**/*.{scss,sass,css}")).map { |file| Pathname(file) }
     end
 
     # Changes when the source's settings change, like a package's tag.

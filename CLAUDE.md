@@ -46,9 +46,15 @@ of RSpec.
    layouts' `_styles` partials with an env var), records about 40 computed
    styles for every element at 1200px and 390px wide, and diffs the two runs.
    The first version matched on all 13 pages checked. Wait about 2 seconds per
-   page, since the Font Awesome kit styles icons after its script loads.
+   page, since the Font Awesome kit styles icons after its script loads, and
+   visit a page and wait 5 seconds before recording: with the CDN's CSS, the
+   kit missed the first two pages otherwise.
    Results so far: public 40.2 KB → 13.8 KB gzipped (with lite.css and
    chat.css), admin 39.9 KB → 12.8 KB.
+   Since 2026-10-26 chat builds from the generated Sass (`public.scss` imports
+   lite.css and chat.css; the CS3 and Bootstrap tags come from its `cs3.rb`):
+   14.0 KB public and 13.0 KB admin gzipped, matching the CDN's CSS on all 13
+   pages at both widths.
 
 ## Things learned the hard way
 
@@ -76,9 +82,8 @@ of RSpec.
 
 ## Not done yet
 
-1. Switch chat to the generated Sass builds (its initializer still uses the
-   CDN's CSS). In chat, the generated builds came to 13.6 KB (public, without
-   lite.css and chat.css) and 12.6 KB (admin) gzipped.
+1. Win back the 0.2 KB that today's Dart Sass adds by writing colors as
+   `rgb(81.0196078431%, …)`: the minifier could write them as hex.
 2. Trim more:
    - read only the gem layouts an app uses (styler's views keep `modal` and
      `offcanvas`);

@@ -24,12 +24,13 @@ RSpec.describe Leancss::Source do
     expect(library).to receive(:fetch)
     write("tmp/cache/packages/library/scss/_buttons.scss", ".btn { color: $brand; }")
     write("app/assets/stylesheets/public/_variables.scss", "$brand: #c00;")
-    write("app/assets/stylesheets/public.scss", "@import 'public/variables';\n@import 'library/scss/buttons';")
+    write("app/assets/stylesheets/lite.css", ".lite { color: red; }")
+    write("app/assets/stylesheets/public.scss", "@import 'public/variables';\n@import 'library/scss/buttons';\n@import 'lite';")
     public = described_class.new("public.scss", stylesheets: root.join("app/assets/stylesheets"), cache: root.join("tmp/cache"),
                                                 output_folder: "lean", packages: [ library ])
 
     expect(public.css).to include(".btn {\n  color: #c00;\n}")
-    expect(public.inputs.map { |path| path.relative_path_from(root).to_s }).to include("app/assets/stylesheets/public/_variables.scss")
+    expect(public.inputs.map { |path| path.relative_path_from(root).to_s }).to include("app/assets/stylesheets/public/_variables.scss", "app/assets/stylesheets/lite.css")
     expect(public.signature).to eq([ "public.scss", [ "v1" ] ])
   end
 
