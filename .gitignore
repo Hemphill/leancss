@@ -3,3 +3,11 @@
 /tmp/
 *.gem
 .DS_Store
+*.DS_Store
+
+# Ignore local IDE artifacts
+/.idea
+
+# Explicitly ignored files
+*--ignore
+**/*--ignore
